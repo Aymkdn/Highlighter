@@ -11,7 +11,7 @@ DEFAULT_FLAGS = sublime.DRAW_EMPTY
 DEFAULT_FLAGS_COOL = sublime.DRAW_STIPPLED_UNDERLINE | sublime.DRAW_NO_FILL | sublime.DRAW_NO_OUTLINE
 DEFAULT_IS_ENABLED = True
 DEFAULT_REGEX = '(\t+ +(?![*]))|( +\t+)|([\t ]+$)'
-DEFAULT_REGEX_COOL = '[\u2026\u2018\u2019\u201c\u201d\u2013\u2014\u00a0\u3000]'
+DEFAULT_REGEX_COOL = '[\u2026\u2018\u2019\u201c\u201d\u2013\u2014\u00a0]'
 DEFAULT_DELAY = 3000
 DEFAULT_SYNTAX_IGNORE = []
 SETTINGS_FILE = 'highlighter.sublime-settings'
@@ -92,18 +92,16 @@ def find_regexes_cool(view):
 # Highlight regex matches.
 def highlighter(view):
     if view.size() <= Pref.max_size and not ignore_view(view) and not is_find_results(view):
-
-        if view.settings().get('highlighter_enabled'):
-            scope = Pref.color_scope_name
-            scope_cool = Pref.color_scope_name_cool
-        else:
-            scope = scope_cool = ""
+        #if view.settings().get('highlighter_enabled'):
+        scope = Pref.color_scope_name
+        scope_cool = Pref.color_scope_name_cool
+        #else:
+        #    scope = scope_cool = ""
 
         regions = find_regexes(view)
         regions_cool = find_regexes_cool(view)
         view.add_regions('HighlighterListener', regions, scope, "", DEFAULT_FLAGS)
         view.add_regions('HighlighterListenerCool', regions_cool, scope_cool, "", DEFAULT_FLAGS_COOL)
-
 
 # Highlight matching regions.
 class HighlighterListener(sublime_plugin.EventListener):
